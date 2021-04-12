@@ -1,0 +1,70 @@
+import React, {useState} from "react";
+import {Redirect} from "react-router";
+import {Link} from "react-router-dom";
+const LoginForm = () => {
+
+    const initLoginState = {
+        input :
+            {
+                userId : '',
+                userPw : ''
+            },
+        loginSuccessed : false
+    };
+
+    const [ loginState, setLoginState ] = useState(initLoginState);
+    const [ user, setUser ] = useState();
+
+    const handleInputChange = event => {
+        const { name, value } = event.target
+        const input = {...(loginState.input), [name] : value }
+        setLoginState({ ...loginState, input : input })
+    }
+
+    const loginUser = async () => {
+
+        const successed = await fetch('http://localhost:8090/login',{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userid: loginState.input.userId,
+                userpw: loginState.input.userPw,
+            })})
+        .then((res)=>res.json())
+        .then(data=>{
+            setUser(data.data)
+            alert('메타마스크 로그인을 진행해주세요.');
+            setLoginState({...loginState, loginSuccessed : true });
+        })
+        .catch((err)=>{
+            alert('로그인 실패');
+            setLoginState(initLoginState);
+        });
+
+    }
+
+
+    return loginState.loginSuccessed ?
+        <Redirect
+            to={{ pathname: '/authority', state: { user: user }}} /> :
+        (<div>
+            <div className="input-field">
+                <label className="input-box" htmlFor="userId">
+                    <span className="fas fa-user-circle"></span>
+                    <input type="text" value={loginState.input.userId} name="userId"
+                           placeholder="아이디를 입력하세요"
+                           onChange={handleInputChange}/>
+                </label>
+                <label className="input-box" htmlFor="userPw">
+                    {/*<i className="fas fa-lock"></i>*/}
+                    <input type="password" value={loginState.input.userPw} name="userPw"
+                           placeholder="패스워드 정책 : 영문,숫자 조합 8자리 이상"
+                           onChange={handleInputChange}/>
+                </label>
+            </div>
+            <button className="button" onClick={()=>loginUser()}>로그인</button>
+        </div> )
+}
+export default LoginForm;

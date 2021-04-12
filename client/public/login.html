@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+    <link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+    <title>login</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="./join.css">
+    <script>
+        window.console = window.console || function(t) {};
+    </script>
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <form class="form">
+        <p class="headgap"></p>
+        <h2 class="headline">
+            CareerManagement System
+            <div style="color: #b0a7a7">
+                with decentralized application.
+            </div>
+        </h2>
+        <p class="description"> 경력관리시스템 로그인화면입니다. <br> MetaMask 계정이 필요합니다.</p>
+        <div class="input-field">
+            <label class="input-box" for="address">
+                <i class="fas fa-envelope"></i>
+                <input type="text" name="address" id="address" placeholder="What's your account address?" autocomplete="off"/>
+<!--                <span class="error-message">Looks like this is not an email. Maybe a typo?</span>-->
+            </label>
+            <label class="input-box" for="password">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" id="password" placeholder="Enter your password">
+            </label>
+        </div>
+        <button class="button" type="submit">로그인</button>
+        <h5>소셜 로그인</h5>
+        <div class="social">
+            <div class="icon-holder">
+                <i class="fab fa-google"></i>
+            </div>
+            <div class="icon-holder">
+                <i class="fab fa-facebook-square"></i>
+            </div>
+            <div class="icon-holder">
+                <i class="fab fa-twitter"></i>
+            </div>
+            <div class="icon-holder">
+                <i class="fab fa-github"></i>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="../src/login.js"></script>
+</body>
+</html>

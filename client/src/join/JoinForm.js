@@ -54,30 +54,26 @@ const JoinForm = () => {
             MetaMask 계정이 필요합니다.</p>
         <div className="input-field">
             <label className="input-box" htmlFor="address">
-                {/*<i className="fas fa-envelope"></i>*/}
                 <input type="text" value={state.user.address} name="address"
                        placeholder="metamask address를 입력하세용"
                        autoComplete="off"
                        onChange={handleInputChange}/>
             </label>
             <label className="input-box" htmlFor="userId">
-                <i className="fas fa-user-circle"></i>
                 <input type="text" value={state.user.userId} name="userId"
                        placeholder="사용하실 아이디를 입력하세용"
                        onChange={handleInputChange}/>
             </label>
-            todo. 아이디 중복 체크 구현
+            {/*todo. 아이디 중복 체크 구현*/}
             <label className="input-box" htmlFor="userPw">
-                <i className="fas fa-lock"></i>
                 <input type="password" value={state.user.userPw} name="userPw"
                        placeholder="비밀번호 생성 규칙 : 영문,숫자 조합 8자리 이상"
                        onChange={handleInputChange}/>
             </label>
-            todo. adobe 패스워드 정책 체크 구현
+            {/*todo. adobe 패스워드 정책 체크 구현*/}
             <label className="input-box" htmlFor="name">
-                {/*<i ></i>*/}
                 <input type="text" value={state.user.userName} name="userName"
-                       placeholder="이름이 뭐예요 , 전화번호 뭐예요 ,"
+                       placeholder="이름이 뭐예용"
                        autoComplete="off"
                        onChange={handleInputChange}/>
             </label>
@@ -85,7 +81,7 @@ const JoinForm = () => {
         <label className="label" name="term-of-use">
             <input type="checkbox" name="term-of-use" id="term-of-use" />
             <span className="checkmark"></span>
-            약관을 동의하고 개인정보를 수집 어쩌고.. <Link to="#">개인정보처리지침웅앵</Link>
+            약관을 동의하고 개인정보를 수집 ... <Link to="#">개인정보처리지침</Link>
         </label>
         <button className="button" onClick={()=>joinUser()}>가 입</button>
     </div>

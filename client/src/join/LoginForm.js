@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {Redirect} from "react-router";
-import {Link} from "react-router-dom";
+import {Input, Button} from 'antd';
+
+
 const LoginForm = () => {
 
     const initLoginState = {
@@ -50,21 +52,13 @@ const LoginForm = () => {
         <Redirect
             to={{ pathname: '/authority', state: { user: user }}} /> :
         (<div>
-            <div className="input-field">
-                <label className="input-box" htmlFor="userId">
-                    <span className="fas fa-user-circle"></span>
-                    <input type="text" value={loginState.input.userId} name="userId"
+                    <Input type="text" value={loginState.input.userId} name="userId"
                            placeholder="아이디를 입력하세요"
                            onChange={handleInputChange}/>
-                </label>
-                <label className="input-box" htmlFor="userPw">
-                    {/*<i className="fas fa-lock"></i>*/}
-                    <input type="password" value={loginState.input.userPw} name="userPw"
+                    <Input type="password" value={loginState.input.userPw} name="userPw"
                            placeholder="패스워드 정책 : 영문,숫자 조합 8자리 이상"
                            onChange={handleInputChange}/>
-                </label>
-            </div>
-            <button className="button" onClick={()=>loginUser()}>로그인</button>
+            <Button size="large" className="button" onClick={()=>loginUser()}>로그인</Button>
         </div> )
 }
 export default LoginForm;

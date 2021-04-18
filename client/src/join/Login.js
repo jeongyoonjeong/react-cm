@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 import LoginForm from "./LoginForm";
+
 const Login = () => {
 
     return (

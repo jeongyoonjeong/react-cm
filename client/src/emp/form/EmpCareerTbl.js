@@ -19,7 +19,7 @@ const EmpCareerTbl = props => {
                 <tr key={career.id}>
                     <td>{career.title}</td>
                     <td>{career.summary ? career.summary : '요약 정보 없음'}</td>
-                    <td>{career.authority}</td>
+                    <td>{career.auth.name}</td>
                     <td>
                     <VerifyResult
                         career={career}

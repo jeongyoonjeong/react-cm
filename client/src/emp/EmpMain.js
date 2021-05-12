@@ -8,8 +8,6 @@ import './career.css'
 
 
 const EmpMain = props => {
-    // Data
-    const careerData = [];
 
     const initCareer = {
         id: null,
@@ -20,7 +18,7 @@ const EmpMain = props => {
     };
 
     // Setting state
-    let [ careers, setCareers ] = useState(careerData)
+    let [ careers, setCareers ] = useState([]);
     let [ currentCareer, setCurrentCareer ] = useState(initCareer)
     let [ editing, setEditing ] = useState(false)
 
@@ -36,7 +34,7 @@ const EmpMain = props => {
                 console.log(e.message)
             }
         })();
-        },[])
+    },[])
 
     const nextCarId = () => Math.max(...careers.map(career=>career.id));
 
@@ -44,14 +42,10 @@ const EmpMain = props => {
     // web3 통신
     // db 통신
      const addCareer =  async newCareer => {
-
             const code = `${nextCarId()}${props.user.address}${newCareer.authAddr}`;
-            console.log(code);
             const web3Result = await props.register(code);
             const dbResult =  await dbAddCareer(newCareer);
 
-            console.log(web3Result);
-            console.log(dbResult);
     }
 
     const dbAddCareer = async newCareer => {

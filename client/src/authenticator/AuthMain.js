@@ -8,8 +8,6 @@ const AuthMain = props =>{
 
     let [ careers, setCareers ] = useState([]);
 
-
-
     useEffect( ()=>{ (async function ()  {
         let url = "http://localhost:8090/v1/careers/auth/"+ props.user.address +"/emp";
         try{

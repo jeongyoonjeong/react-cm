@@ -18,7 +18,7 @@ const AuthCareerTbl = props => {
         <tbody>
         { props.careers ? (
             props.careers.map(career => {
-                let verified = props.verify(`${career.id}${career.emp.address}${props.user.address}`);
+                let verified = props.verify(`${career.id}${career.emp.address}${props.user.address}`).then();
                 console.log(verified)
                 return (
                     <tr key={career.id}>

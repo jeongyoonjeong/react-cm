@@ -36,7 +36,7 @@ const EmpMain = props => {
         })();
     },[])
 
-    const nextCarId = () => Math.max(...careers.map(career=>career.id));
+    const nextCarId = () => Math.max(...careers.map(career=>career.id)) + 1;
 
     // 경력추가 Event
     // web3 통신
@@ -45,6 +45,8 @@ const EmpMain = props => {
             const code = `${nextCarId()}${props.user.address}${newCareer.authAddr}`;
             const web3Result = await props.register(code);
             const dbResult =  await dbAddCareer(newCareer);
+            console.log(dbResult)
+            setCareers([...careers,dbResult]);
 
     }
 
@@ -69,12 +71,11 @@ const EmpMain = props => {
                 },
                 regist_date : Date.now()
             })
-        });
+        }).then(res=>res.json());
     }
 
     const deleteCareer = career => {
         setEditing(false)
-        console.log(career);
         const url = `http://localhost:8090/v1/career/${career.id}/emp/${career.emp.address}/auth/${career.auth.address}`
         window.fetch(url,{
             method : 'DELETE'

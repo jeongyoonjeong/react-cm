@@ -6,6 +6,7 @@ const JoinForm = () => {
     const initializeState = {
         user :
             {
+                role: '',
                 address : '',
                 userId : '',
                 userPw : '',
@@ -29,7 +30,7 @@ const JoinForm = () => {
                 userid: state.user.userId,
                 userpw: state.user.userPw,
                 address: state.user.address,
-                role:1
+                role: state.user.role
             })
         }).then((res)=>{
             alert('가입 성공');
@@ -41,6 +42,12 @@ const JoinForm = () => {
 
         setState(initializeState);
     }
+    const handleRoleChange = event =>{
+        const { value } = event.target;
+        const input = {...state.user, role : value }
+        setState({...state, user : input })
+    }
+
     const handleInputChange = event => {
         const { name, value } = event.target
         const input = {...(state.user), [name] : value }
@@ -51,6 +58,14 @@ const JoinForm = () => {
     return state.redirect ? <Redirect to='/login'/> : (
     <div>
         <div className="input-field">
+            <label className="input-box" htmlFor="role">
+                <select name="role" onChange={handleRoleChange}>
+                    <option value="">계정 종류</option>                
+                    <option value="ROLE_EMP">근로자</option>
+                    <option value="ROLE_AUTH">기업/기관/사업자</option>
+                </select>
+            </label>
+            
             <label className="input-box" htmlFor="address">
                 <input type="text" value={state.user.address} name="address"
                        placeholder="metamask address를 입력하세용"

@@ -36,7 +36,8 @@ const LoginForm = () => {
             })})
         .then((res)=>res.json())
         .then(data=>{
-            setUser(data.data)
+            //JsonString으로 session에 저장 
+            sessionStorage.setItem("user",data.data.stringify())    
             alert('메타마스크 로그인을 진행해주세요.');
             setLoginState({...loginState, loginSuccessed : true });
         })
@@ -50,7 +51,7 @@ const LoginForm = () => {
 
     return loginState.loginSuccessed ?
         <Redirect
-            to={{ pathname: '/authority', state: { user: user }}} /> :
+            to={{ pathname: '/authority', state: { user: sessionStorage.user }}} /> :
         (<div>
                     <Input type="text" value={loginState.input.userId} name="userId"
                            placeholder="아이디를 입력하세요"

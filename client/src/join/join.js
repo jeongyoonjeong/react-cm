@@ -24,11 +24,9 @@ const Join = () => {
                     MetaMask 계정이 필요합니다.</p>
                 <JoinForm />
                 <SocialLogin />
-                <div className="login">
                     <p>이미 계정이 존재하시나요?
                         <Link to="/login">로그인</Link>
                     </p>
-                </div>
             </div>
         </div>
     );

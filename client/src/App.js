@@ -5,6 +5,8 @@ import Join from "./join/join";
 import Login from "./join/Login";
 import Authority from "./web3/authority";
 
+import './App.css';
+
 
 
 function App() {

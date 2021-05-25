@@ -5,13 +5,9 @@ const EditCareerForm = props => {
         const [ career, setCareer ] = useState(props.currentCareer)
         const [ error, setError ] = useState([])
 
-        // useEffect(
-        //     () => {
-        //         setCareer(props.currentCareer)
-        //     },
-        //     [ props ]
-        // )
-
+    useEffect(()=>{
+        setAuthAddress(props.currentCareer.authAddr)
+    },[])
     const vaildateCareer = () => {
 
         let fields = career;
@@ -30,28 +26,27 @@ const EditCareerForm = props => {
         }
 
         //authAddress
-        if(!fields["authAddr"]){
+        if(!fields["auth"]){
             formIsValid = false;
-            errors["authAddr"] = "Cannot be empty";
+            errors["auth"] = "Cannot be empty";
         }
 
-        if(typeof fields["authAddr"] !== "undefined"){
-            if(!fields["authAddr"].match(/[a-zA-Z0-9]{42}/g)){
+        if(typeof fields["auth"]["address"] !== "undefined"){
+            if(!fields["auth"]["address"].match(/[a-zA-Z0-9]{42}/g)){
                 formIsValid = false;
-                errors["authAddr"] = "this is not blockchain address";
+                errors["auth"]["address"] = "this is not blockchain address";
             }
         }
         setError(errors);
         return formIsValid;
-
     }
+
     const setAuthAddress = authAddr => {
         setCareer({...career, authAddr : authAddr })
     }
 
     const handleInputChange = event => {
             const { name, value } = event.target
-
             setCareer({ ...career, [name]: value })
         }
 
@@ -71,17 +66,16 @@ const EditCareerForm = props => {
                 <label>인증처 address</label>
                 <SerachAuth
                     setAuthAddress = {setAuthAddress}
-                    authAddr={career.authAddr}
-                    key={career.authAddr}
+                    authAddr={career.auth.address}
+                    key={career.auth.address}
                 />
-                <button>인증처 변경</button>
                 <br/><span style={{ color : 'red'}}>{error["authAddr"]} </span>
                 <label>근무 기간</label>
                 <label>시작일</label>
                 <input type="date" name="start_date" value={career.start_date} onChange={handleInputChange}  />
                 <label>종료일</label>
                 <input type="date" name="end_date" value={career.end_date} onChange={handleInputChange}  />
-                <button>Update user</button>
+                <button>Update</button>
                 <button onClick={() => props.setEditing(false)} className="button muted-button">
                     Cancel
                 </button>

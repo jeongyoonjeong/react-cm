@@ -1,0 +1,23 @@
+.join {
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    background: #5268f4;
+    height: 100%;
+}
+.joinItem {
+    padding: 50px 50px 0 50px;
+    background: white;
+}
+
+.login {
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    background: #5268f4;
+    height: 100%;
+}
+.loginItem {
+    padding: 50px 50px 0 50px;
+    background: white;
+}

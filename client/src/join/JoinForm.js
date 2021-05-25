@@ -50,8 +50,6 @@ const JoinForm = () => {
 
     return state.redirect ? <Redirect to='/login'/> : (
     <div>
-        <p className="description"> 경력관리시스템 가입 화면입니다. <br/>
-            MetaMask 계정이 필요합니다.</p>
         <div className="input-field">
             <label className="input-box" htmlFor="address">
                 <input type="text" value={state.user.address} name="address"

@@ -8,7 +8,8 @@ const AddCareerForm = props  => {
         summary : '',
         authAddr : '',
         start_date : '',
-        end_date : ''
+        end_date : '',
+        delete_at : ''
     }
 
     const [ career, setCareer ] = useState(initialFormState)

@@ -4,28 +4,21 @@ import AddCareerForm from './form/AddCareerForm'
 import EditCareerForm from './form/EditCareerForm'
 import EmpCareerTbl from './form/EmpCareerTbl'
 
-import './career.css'
+// import './career.css'
 
 
 const EmpMain = props => {
 
-    const initCareer = {
-        id: null,
-        title: '',
-        authority: '',
-        summary: '',
-        resultCert: false
-    };
 
     // Setting state
     let [ careers, setCareers ] = useState([]);
-    let [ currentCareer, setCurrentCareer ] = useState(initCareer)
+    let [ currentCareer, setCurrentCareer ] = useState()
     let [ editing, setEditing ] = useState(false)
 
 
     useEffect(()=>{
         (async function getCareers(){
-            const url = 'http://localhost:8090/v1/careers/emp/' + props.user.address + '/auth';
+            const url = `http://localhost:8090/v1/careers/emp/${props.user.address}`;
             const res = await fetch(url);
             try{
                 const data = await res.json();
@@ -36,9 +29,15 @@ const EmpMain = props => {
         })();
     },[])
 
-    const nextCarId = () => Math.max(...careers.map(career=>career.id)) + 1;
-
-    // 경력추가 Event
+    // const nextCarId = () => Math.max(...careers.map(career=>career.id)) + 1;
+    const nextCarId = () => {
+        let nextId = fetch('http://localhost:8090/v1/career/nextId').then(res=>res.json()).then();
+        console.log(nextId);
+        return nextId;
+    }
+    
+    
+        // 경력추가 Event
     // web3 통신
     // db 통신
      const addCareer =  async newCareer => {
@@ -51,7 +50,7 @@ const EmpMain = props => {
     }
 
     const dbAddCareer = async newCareer => {
-        const url = `http://localhost:8090/v1/career/emp/${props.user.address}`;
+        const url = `http://localhost:8090/v1/career`;
         return await fetch(url,{
             method : 'POST',
             headers : {
@@ -63,15 +62,26 @@ const EmpMain = props => {
                 summary : newCareer.summary,
                 start_date : newCareer.start_date,
                 end_date : newCareer.end_date,
-                auth : {
-                    address : newCareer.authAddr
-                },
+                auth : newCareer.auth,
                 emp : {
                     address : props.user.address
                 },
                 regist_date : Date.now()
             })
         }).then(res=>res.json());
+    }
+
+    const dbUpdateCareer = async career =>  {
+        const url = `http://localhost:8090/v1/career/${career.id}`;
+        const res = await window.fetch(url,{
+            method : 'PATCH',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : career
+        });
+        const data = await res.json();
+        return data;
     }
 
     const deleteCareer = career => {
@@ -84,30 +94,20 @@ const EmpMain = props => {
 
     }
 
-    const updateCareer = (updatedCareer)  => {
-        setEditing(false)
-            //
-            // const code = `${nextCarId()}${props.user.address}${newCareer.authAddr}`;
-            // console.log(code);
-            // const web3Result = await props.register(code);
-            // const dbResult =  await dbAddCareer(newCareer);
-            //
-            // console.log(web3Result);
-            // console.log(dbResult);
+    const updateCareer = career => {
+         
+        const code = `${career.id}${props.user.address}${career.authAddr}`;
+        const dbResult = dbUpdateCareer(career);
+            
+        console.log(dbResult);
+        setCareers([...careers,dbResult]);
+        setEditing(false);     
     }
 
 
     function editRow(career) {
-
         setEditing(true)
-
-        setCurrentCareer({
-            id: career.id,
-            title: career.title,
-            summary: career.summary,
-            authority: career.authority,
-            resultCert: career.resultCert
-        });
+        setCurrentCareer(career);
     }
 
     return (

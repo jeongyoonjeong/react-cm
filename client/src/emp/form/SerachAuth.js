@@ -12,7 +12,7 @@ const SearchAuth = props => {
     useEffect( ()=>{
         (async function getAuths(){
             try {
-                const url = 'http://localhost:8090/v1/auth/all'
+                const url = `http://${process.env.REACT_APP_API_HOST}/v1/auth/all`
                 const res = await fetch(url);
                 const data = await res.json();
                 setAuths(data);

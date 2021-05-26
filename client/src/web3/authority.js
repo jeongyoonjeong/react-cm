@@ -81,14 +81,14 @@ class Authority extends Component {
              return <div>Loading Web3, accounts, and contract...</div> ;
         if(this.state.accounts[0] !== this.state.user.address)
             return <Redirect to={'/login'}/>
-        return ( this.state.user.role === "1" ?
+        return ( this.state.user.role === "ROLE_EMP" ?
                     <EmpMain
                         user={this.state.user}
                         web3={this.state}
                         verify={this.verifyCareer}
                         register={this.registerCareer}
                     /> :
-                ( this.state.user.role === "2" ?
+                ( this.state.user.role === "ROLE_AUTH" ?
                         <AuthMain
                             user={this.state.user}
                             web3={this.state}

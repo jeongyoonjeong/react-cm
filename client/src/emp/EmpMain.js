@@ -18,7 +18,7 @@ const EmpMain = props => {
 
     useEffect(()=>{
         (async function getCareers(){
-            const url = `http://localhost:8090/v1/careers/emp/${props.user.address}`;
+            const url = `http://${process.env.REACT_APP_API_HOST}/v1/careers/emp/${props.user.address}`;
             const res = await fetch(url);
             try{
                 const data = await res.json();
@@ -31,7 +31,7 @@ const EmpMain = props => {
 
     // const nextCarId = () => Math.max(...careers.map(career=>career.id)) + 1;
     const nextCarId = () => {
-        let nextId = fetch('http://localhost:8090/v1/career/nextId').then(res=>res.json()).then();
+        let nextId = fetch(`http://${process.env.REACT_APP_API_HOST}/v1/career/nextId`).then(res=>res.json()).then();
         console.log(nextId);
         return nextId;
     }
@@ -50,7 +50,7 @@ const EmpMain = props => {
     }
 
     const dbAddCareer = async newCareer => {
-        const url = `http://localhost:8090/v1/career`;
+        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
         return await fetch(url,{
             method : 'POST',
             headers : {
@@ -72,7 +72,7 @@ const EmpMain = props => {
     }
 
     const dbUpdateCareer = async career =>  {
-        const url = `http://localhost:8090/v1/career/${career.id}`;
+        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career/${career.id}`;
         const res = await window.fetch(url,{
             method : 'PATCH',
             headers : {
@@ -86,7 +86,7 @@ const EmpMain = props => {
 
     const deleteCareer = career => {
         setEditing(false)
-        const url = `http://localhost:8090/v1/career/${career.id}/emp/${career.emp.address}/auth/${career.auth.address}`
+        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career/${career.id}/emp/${career.emp.address}/auth/${career.auth.address}`
         window.fetch(url,{
             method : 'DELETE'
         }).then(_=> setCareers(careers.filter(c=>c.id !== career.id))

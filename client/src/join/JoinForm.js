@@ -10,7 +10,7 @@ const JoinForm = () => {
                 address : '',
                 userId : '',
                 userPw : '',
-                userName: '',
+                name: '',
 
             },
         redirect : false
@@ -20,16 +20,16 @@ const JoinForm = () => {
 
     const joinUser = () => {
 
-        fetch('http://localhost:8090/join',{
+        fetch(`http://${process.env.REACT_APP_API_HOST}/signup`,{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                name: state.user.userName,
-                userid: state.user.userId,
-                userpw: state.user.userPw,
                 address: state.user.address,
+                name: state.user.userName,
+                userId: state.user.userId,
+                userPw: state.user.userPw,
                 role: state.user.role
             })
         }).then((res)=>{

@@ -1,3 +1,4 @@
+import { Progress } from "antd";
 import React, {useState, useEffect} from "react";
 
 import Authority from "../web3/authority";
@@ -9,7 +10,7 @@ const AuthMain = props =>{
     let [ careers, setCareers ] = useState([]);
 
     useEffect( ()=>{ (async function ()  {
-        let url = "http://localhost:8090/v1/careers/auth/"+ props.user.address +"/emp";
+        let url = `http://${process.env.REACT_APP_API_HOST}/v1/careers/auth/${props.user.address}/emp`;
         try{
             const res = await fetch(url);
             setCareers(await res.json())

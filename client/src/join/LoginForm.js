@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, userRef} from "react";
 import {Redirect} from "react-router";
 import {Input, Button} from 'antd';
 
@@ -23,26 +23,26 @@ const LoginForm = () => {
         setLoginState({ ...loginState, input : input })
     }
 
-    const loginUser = async () => {
-
-        const successed = await fetch('http://localhost:8090/login',{
+    const loginUser = () => {
+        const url = `http://${process.env.REACT_APP_API_HOST}/signin`;
+        const successed = fetch(url,{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                userid: loginState.input.userId,
-                userpw: loginState.input.userPw,
+                userId: loginState.input.userId,
+                userPw: loginState.input.userPw,
             })})
         .then((res)=>res.json())
         .then(data=>{
-            //JsonString으로 session에 저장 
-            sessionStorage.setItem("user",data.data.stringify())    
             alert('메타마스크 로그인을 진행해주세요.');
+            setUser(data.data)
             setLoginState({...loginState, loginSuccessed : true });
         })
         .catch((err)=>{
             alert('로그인 실패');
+            console.log(err.message);
             setLoginState(initLoginState);
         });
 
@@ -51,7 +51,7 @@ const LoginForm = () => {
 
     return loginState.loginSuccessed ?
         <Redirect
-            to={{ pathname: '/authority', state: { user: sessionStorage.user }}} /> :
+            to={{ pathname: '/authority', state: { user: user } }} /> :
         (<div>
                     <Input type="text" value={loginState.input.userId} name="userId"
                            placeholder="아이디를 입력하세요"

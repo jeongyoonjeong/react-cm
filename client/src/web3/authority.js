@@ -14,8 +14,7 @@ class Authority extends Component {
             web3: null,
             accounts: null,
             contract: null,
-            user : props.location.state.user
-
+            // user : sessionStorage.getItem("user");
         };
     }
 
@@ -79,18 +78,17 @@ class Authority extends Component {
     render() {
         if(!this.state.web3)
              return <div>Loading Web3, accounts, and contract...</div> ;
-        if(this.state.accounts[0] !== this.state.user.address)
-            return <Redirect to={'/login'}/>
-        return ( this.state.user.role === "ROLE_EMP" ?
+        if(this.state.accounts[0] !== sessionStorage.getItem("address"))
+            return(console.log(sessionStorage),<Redirect to={'/login'} />)
+    
+        return ( sessionStorage.getItem("role") === "ROLE_EMP" ?
                     <EmpMain
-                        user={this.state.user}
                         web3={this.state}
                         verify={this.verifyCareer}
                         register={this.registerCareer}
                     /> :
-                ( this.state.user.role === "ROLE_AUTH" ?
+                ( sessionStorage.getItem("role") === "ROLE_AUTH" ?
                         <AuthMain
-                            user={this.state.user}
                             web3={this.state}
                             verify={this.verifyCareer}
                             certify={this.certifyContent}

@@ -36,8 +36,14 @@ const LoginForm = () => {
             })})
         .then((res)=>res.json())
         .then(data=>{
+             const userData = {...data['data'], token : data['token'] }
+            for(let prop in userData){
+                sessionStorage.setItem(prop,userData[prop]);
+            }
             alert('메타마스크 로그인을 진행해주세요.');
-            setUser(data.data)
+        
+            // let user = { ...data.data, token : data.token } 
+            // setUser(user)
             setLoginState({...loginState, loginSuccessed : true });
         })
         .catch((err)=>{
@@ -48,10 +54,9 @@ const LoginForm = () => {
 
     }
 
-
     return loginState.loginSuccessed ?
         <Redirect
-            to={{ pathname: '/authority', state: { user: user } }} /> :
+            to={{ pathname: '/authority' }} /> :
         (<div>
                     <Input type="text" value={loginState.input.userId} name="userId"
                            placeholder="아이디를 입력하세요"

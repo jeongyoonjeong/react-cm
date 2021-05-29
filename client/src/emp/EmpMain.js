@@ -9,7 +9,7 @@ import EmpCareerTbl from './form/EmpCareerTbl'
 
 const EmpMain = props => {
 
-
+    const {address, name, token} = sessionStorage;
     // Setting state
     let [ careers, setCareers ] = useState([]);
     let [ currentCareer, setCurrentCareer ] = useState()
@@ -18,8 +18,8 @@ const EmpMain = props => {
 
     useEffect(()=>{
         (async function getCareers(){
-            const url = `http://${process.env.REACT_APP_API_HOST}/v1/careers/emp/${props.user.address}`;
-            const res = await fetch(url);
+            const url = `http://${process.env.REACT_APP_API_HOST}/v1/careers/emp/${address}`;
+            const res = await fetch(url, { headers : { 'X-AUTH-TOKEN' : token }});
             try{
                 const data = await res.json();
                 setCareers(data);
@@ -31,17 +31,19 @@ const EmpMain = props => {
 
     // const nextCarId = () => Math.max(...careers.map(career=>career.id)) + 1;
     const nextCarId = () => {
-        let nextId = fetch(`http://${process.env.REACT_APP_API_HOST}/v1/career/nextId`).then(res=>res.json()).then();
+        let nextId = fetch(`http://${process.env.REACT_APP_API_HOST}/v1/career/nextId`
+        , { headers : { 'X-AUTH-TOKEN' : token }})
+        .then(res=>res.json()).then();
         console.log(nextId);
         return nextId;
     }
     
     
-        // 경력추가 Event
+    // 경력추가 Event
     // web3 통신
     // db 통신
      const addCareer =  async newCareer => {
-            const code = `${nextCarId()}${props.user.address}${newCareer.authAddr}`;
+            const code = `${nextCarId()}${address}${newCareer.authAddr}`;
             const web3Result = await props.register(code);
             const dbResult =  await dbAddCareer(newCareer);
             console.log(dbResult)
@@ -54,7 +56,8 @@ const EmpMain = props => {
         return await fetch(url,{
             method : 'POST',
             headers : {
-                "Content-Type" : "application/json"
+                'X-AUTH-TOKEN' : token,
+                'Content-Type' : "application/json"
             },
            body : JSON.stringify({
                 id : careers.length+1,
@@ -64,7 +67,7 @@ const EmpMain = props => {
                 end_date : newCareer.end_date,
                 auth : newCareer.auth,
                 emp : {
-                    address : props.user.address
+                    address : address
                 },
                 regist_date : Date.now()
             })
@@ -76,6 +79,7 @@ const EmpMain = props => {
         const res = await window.fetch(url,{
             method : 'PATCH',
             headers : {
+                'X-AUTH-TOKEN' : token,
                 'Content-Type' : 'application/json'
             },
             body : career
@@ -88,6 +92,7 @@ const EmpMain = props => {
         setEditing(false)
         const url = `http://${process.env.REACT_APP_API_HOST}/v1/career/${career.id}/emp/${career.emp.address}/auth/${career.auth.address}`
         window.fetch(url,{
+            'X-AUTH-TOKEN' : token,
             method : 'DELETE'
         }).then(_=> setCareers(careers.filter(c=>c.id !== career.id))
         ).catch(_=>alert("delete failed"))
@@ -96,7 +101,7 @@ const EmpMain = props => {
 
     const updateCareer = career => {
          
-        const code = `${career.id}${props.user.address}${career.authAddr}`;
+        const code = `${career.id}${address}${career.authAddr}`;
         const dbResult = dbUpdateCareer(career);
             
         console.log(dbResult);
@@ -113,8 +118,8 @@ const EmpMain = props => {
     return (
 
         <div className="container">
-            <h2>{props.user.name}님 안녕하세요.</h2>
-            <p> MetamaskAddress ({props.user.address})</p>
+            <h2>{name}님 안녕하세요.</h2>
+            <p> MetamaskAddress ({address})</p>
             <div className="flex-row">
                 <div className="flex-large">
                     {editing ? (

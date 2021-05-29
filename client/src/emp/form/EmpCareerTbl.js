@@ -2,7 +2,7 @@ import React from 'react';
 import VerifyResult from "./VerifyResult";
 
 const EmpCareerTbl = props => {
-    console.log(props.careers ? props.careers.length : 0);
+    const {address} = sessionStorage;
     const dateToString = data_value => {
         let date = new Date(data_value);
         return date ?  `${date.getFullYear()}.${date.getMonth()}.${date.getDate()}` : '날짜 정보 없음'
@@ -13,7 +13,7 @@ const EmpCareerTbl = props => {
         <thead>
         <tr>
             <th>title</th>
-            <th>summary</th>
+            <th>summary</th> 
             <th>start</th>
             <th>end</th>
             <th>authority</th>
@@ -24,28 +24,28 @@ const EmpCareerTbl = props => {
         { props.careers.length > 0 ? (
             props.careers.map(career => (
                 <tr key={career.id}>
-                    <td>{career.title}</td>
-                    <td>{career.summary ? career.summary : '요약 정보 없음'}</td>
-                    <td>{dateToString(career.start_date)}</td>
-                    <td>{dateToString(career.end_date)}</td>
-                    <td>{career.auth.name}</td>
-                    <td>
+                    <td className="title">{career.title}</td>
+                    <td className="summary">{career.summary ? career.summary : '요약 정보 없음'}</td>
+                    <td className="start_date">{dateToString(career.start_date)}</td>
+                    <td className="end_date">{dateToString(career.end_date)}</td>
+                    <td className="auth">{career.auth.name}</td>
+                    <td className="verified">
                     <VerifyResult
                         career={career}
-                        userAddr={props.user.addr}
+                        userAddr={address}
                         verify={props.verify}
                     />
                     </td>
                     <td>
                         <button
                             onClick={() => props.editRow(career)}
-                            className="button muted-button"
+                            className="button"
                         >
                             Edit
                         </button>
                         <button
                             onClick={()=> props.deleteCareer(career)}
-                            className="button muted-button"
+                            className="button"
                         >
                             Delete
                         </button>

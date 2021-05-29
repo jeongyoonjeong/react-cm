@@ -91,11 +91,6 @@ const JoinForm = () => {
                        onChange={handleInputChange}/>
             </label>
         </div>
-        <label className="label" name="term-of-use">
-            <input type="checkbox" name="term-of-use" id="term-of-use" />
-            <span className="checkmark"></span>
-            약관을 동의하고 개인정보를 수집 ... <Link to="#">개인정보처리지침</Link>
-        </label>
         <button className="button" onClick={()=>joinUser()}>가 입</button>
     </div>
 )

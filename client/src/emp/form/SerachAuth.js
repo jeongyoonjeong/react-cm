@@ -12,11 +12,17 @@ const SearchAuth = props => {
     useEffect( ()=>{
         (async function getAuths(){
             try {
-                const url = `http://${process.env.REACT_APP_API_HOST}/v1/auth/all`
-                const res = await fetch(url);
+                const url = `http://${process.env.REACT_APP_API_HOST}/v1/auth/all`;
+                const token = sessionStorage.getItem('token');
+                const res = await fetch(url,{
+                    headers:{
+                        'X-AUTH-TOKEN' : token
+                    }
+                });
                 const data = await res.json();
                 setAuths(data);
             } catch (e) {
+                console.log(e)
                 alert("인증처 정보를 불러올 수 없습니다")
             }
         })(); } ,[]);
@@ -34,7 +40,7 @@ const SearchAuth = props => {
     return (
         <AutoComplete
             style={{
-                width: 500
+                width: '50%'
             }}
             onSearch={onSearch}
             onSelect={props.setAuthAddress}

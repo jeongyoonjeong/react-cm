@@ -3,13 +3,15 @@ import React, { useState, useEffect, Fragment } from 'react'
 import AddCareerForm from './form/AddCareerForm'
 import EditCareerForm from './form/EditCareerForm'
 import EmpCareerTbl from './form/EmpCareerTbl'
+import Receipt from '../web3/ReceiptModal'
+import './emp.css';
 
 // import './career.css'
 
 
 const EmpMain = props => {
 
-    const {address, name, token} = sessionStorage;
+    const {address, name,token} = sessionStorage;
     // Setting state
     let [ careers, setCareers ] = useState([]);
     let [ currentCareer, setCurrentCareer ] = useState()
@@ -46,9 +48,10 @@ const EmpMain = props => {
             const code = `${nextCarId()}${address}${newCareer.authAddr}`;
             const web3Result = await props.register(code);
             const dbResult =  await dbAddCareer(newCareer);
+            
+            
             console.log(dbResult)
             setCareers([...careers,dbResult]);
-
     }
 
     const dbAddCareer = async newCareer => {
@@ -65,7 +68,9 @@ const EmpMain = props => {
                 summary : newCareer.summary,
                 start_date : newCareer.start_date,
                 end_date : newCareer.end_date,
-                auth : newCareer.auth,
+                auth : {
+                    address: newCareer.authAddr
+                },
                 emp : {
                     address : address
                 },
@@ -118,10 +123,13 @@ const EmpMain = props => {
     return (
 
         <div className="container">
+            <div className="header">
             <h2>{name}님 안녕하세요.</h2>
             <p> MetamaskAddress ({address})</p>
+            <button className="logout">Logout</button>
+            </div>
             <div className="flex-row">
-                <div className="flex-large">
+                <div className="flex-large one-thirds">
                     {editing ? (
                         <Fragment>
                             <h2>Editing Career</h2>
@@ -139,7 +147,7 @@ const EmpMain = props => {
                         </Fragment>
                     )}
                 </div>
-                <div className="flex-large">
+                <div className="flex-large two-thirds">
                     <h2>View career</h2>
                     <EmpCareerTbl
                         careers={careers}

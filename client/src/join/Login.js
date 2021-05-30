@@ -41,9 +41,6 @@ const Login = () => {
                 sessionStorage.setItem(prop,userData[prop]);
             }
             alert('메타마스크 로그인을 진행해주세요.');
-        
-            // let user = { ...data.data, token : data.token } 
-            // setUser(user)
             setLoginState({...loginState, loginSuccessed : true });
         })
         .catch((err)=>{

@@ -2,25 +2,21 @@ import React, {useEffect,useState} from "react";
 import loadingGif from '../../Spinner-1.2s-188px.gif'
 
 const VerifyResult = props => {
+    const { verify , code } = props;
     const [ result , setResult ] = useState();
     const [ loading , setLoading ] = useState(false);
 
     useEffect(()=>{
-        callVerify(props)
-    },[])
-
-
-    const callVerify =  async props => {
-            const code = `${props.career.id}${props.userAddr}${props.career.auth.address}`;
+        (async function(){
             try {
-                const result = await props.verify(code);
-                console.log(result)
+                const result = await verify(code);
                 setResult(result);
                 setLoading(true);
             }catch (e) {
                 console.log(e.message);
             }
-    }
+        })();
+    },[])
 
     return !loading ?
         <img src={loadingGif} alt=""></img> :

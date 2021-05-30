@@ -3,13 +3,15 @@ import VerifyResult from "./VerifyResult";
 
 const EmpCareerTbl = props => {
     const {address} = sessionStorage;
+
+    //날짜 data 치환
     const dateToString = data_value => {
         let date = new Date(data_value);
         return date ?  `${date.getFullYear()}.${date.getMonth()}.${date.getDate()}` : '날짜 정보 없음'
     } 
 
     return (
-    <table>
+    <table className="striped-table">
         <thead>
         <tr>
             <th>title</th>
@@ -18,6 +20,8 @@ const EmpCareerTbl = props => {
             <th>end</th>
             <th>authority</th>
             <th>resultCert</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -31,8 +35,7 @@ const EmpCareerTbl = props => {
                     <td className="auth">{career.auth.name}</td>
                     <td className="verified">
                     <VerifyResult
-                        career={career}
-                        userAddr={address}
+                        code={`${career.id}${address}${career.auth.address}`}
                         verify={props.verify}
                     />
                     </td>
@@ -43,6 +46,8 @@ const EmpCareerTbl = props => {
                         >
                             Edit
                         </button>
+                    </td>
+                    <td>
                         <button
                             onClick={()=> props.deleteCareer(career)}
                             className="button"

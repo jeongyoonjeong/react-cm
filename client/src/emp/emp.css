@@ -1,0 +1,13 @@
+/* button.logout {
+    background-color: #ffffff;
+    font-style: #5268f4;
+} */
+
+.addCareerForm {
+    width:100%;
+    background-color: #ffffff;  
+}
+
+.addCareerForm[name="summary"]{
+    height: 110px;
+}

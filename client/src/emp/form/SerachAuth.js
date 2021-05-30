@@ -40,7 +40,7 @@ const SearchAuth = props => {
     return (
         <AutoComplete
             style={{
-                width: '50%'
+                 width: '100%'
             }}
             onSearch={onSearch}
             onSelect={props.setAuthAddress}

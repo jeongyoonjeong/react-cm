@@ -4,7 +4,6 @@ import {Input, Button} from 'antd';
 
 
 const LoginForm = props => {
-
     
     return props.loginState.loginSuccessed ?
         <Redirect

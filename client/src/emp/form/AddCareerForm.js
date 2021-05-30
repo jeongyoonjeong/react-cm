@@ -2,6 +2,7 @@ import React ,{ useState } from 'react';
 import SerachAuth from "./SerachAuth";
 import 'antd/dist/antd.css';
 
+
 const AddCareerForm = props  => {
     const initialFormState = {
         title : '',
@@ -67,17 +68,17 @@ const AddCareerForm = props  => {
     }
 
     return (
-            <form onSubmit={onSubmit}>
+            <form className="addCareerForm" onSubmit={onSubmit}>
             <label>경력 제목</label>
             <input type="text" name="title" value={career.title} onChange={handleInputChange} />
             <br/><span style={{ color : 'red'}}>{error["title"]} </span>
             <label>내용 기술</label>
-            <input type="text" name="summary" value={career.summary} onChange={handleInputChange}  />
+            <textarea name="summary" value={career.summary} onChange={handleInputChange}  />
             <br/><span style={{ color : 'red'}}>{error["summary"]} </span>
             <label>인증처 address</label>
             <SerachAuth
                 setAuthAddress = {setAuthAddress}
-                authAddr={career.authAddr}
+                // authAddr={career.authAddr}
                 key={career.authAddr}
             />
             <br/><span style={{ color : 'red'}}>{error["authAddr"]} </span>

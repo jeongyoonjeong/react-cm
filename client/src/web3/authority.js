@@ -34,10 +34,8 @@ class Authority extends Component {
                 deployedNetwork && deployedNetwork.address,
             );
 
-            // Set web3, accounts, and contract to the state, and then proceed with an
-            // example of interacting with the contract's methods.
             this.setState({ web3 : web3, accounts : accounts, contract: instance });
-            console.log(this.state)
+
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -68,18 +66,13 @@ class Authority extends Component {
     };
 
     //view 트랜잭션 호출
-    verifyCareer =  code => {
-        const { contract } = this.state;
-        const result =  contract.methods.verify(code).call();
-        console.log(result)
-        return  result;
-    };
+    verifyCareer =  async code =>  this.state.contract.methods.verify(code).call();
 
     render() {
         if(!this.state.web3)
              return <div>Loading Web3, accounts, and contract...</div> ;
         if(this.state.accounts[0] !== sessionStorage.getItem("address"))
-            return(console.log(sessionStorage),<Redirect to={'/login'} />)
+            return (console.log(sessionStorage),<Redirect to={'/login'} />)
     
         return ( sessionStorage.getItem("role") === "ROLE_EMP" ?
                     <EmpMain

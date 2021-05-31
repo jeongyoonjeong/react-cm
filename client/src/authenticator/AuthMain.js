@@ -5,6 +5,8 @@ import Authority from "../web3/authority";
 import AuthCareerTbl from "./form/AuthCareerTbl";
 import Logout from "../join/Logout";
 
+import './auth.css';
+
 const AuthMain = props =>{
 
     const {address, name,token} = sessionStorage;
@@ -43,18 +45,19 @@ const AuthMain = props =>{
         console.log(code);
     }
         return (
-            <div>
-                <h2>{name}님 안녕하세요.</h2>
-                <p> MetamaskAddress ({address})</p>
-                <Logout/>
-                <div className="flex-row">
-                <div className="flex-large">
-                <AuthCareerTbl
-                    careers={careers}
-                    certify={callCertify}
-                    verify={props.verify}
-                />
-                </div>
+            <div className="authRoot">
+                <div className="authContainer">
+                    <h2>{name}님 안녕하세요.</h2>
+                    <p> MetamaskAddress ({address})</p>
+                    <Logout/>
+                    <div className="flex-row">
+                    <div className="flex-large">
+                    <AuthCareerTbl
+                        careers={careers}
+                        certify={callCertify}
+                        verify={props.verify}
+                    />
+                    </div></div>
                 </div>
             </div>
         );

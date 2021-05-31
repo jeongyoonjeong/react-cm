@@ -14,17 +14,17 @@ const EmpCareerTbl = props => {
     <table className="striped-table">
         <thead>
         <tr>
-            <th>title</th>
-            <th>summary</th> 
-            <th>start</th>
-            <th>end</th>
-            <th>authority</th>
-            <th>resultCert</th>
+            <th>경력 제목</th>
+            <th>경력 기술</th> 
+            <th>경력 <br/>시작 일</th>
+            <th>경력 <br/>마감 일</th>
+            <th>인증처</th>
+            <th>인증 <br/>상태</th>
             <th></th>
             <th></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody className="careerListBody">
         { props.careers.length > 0 ? (
             props.careers.map(career => (
                 <tr key={career.id}>

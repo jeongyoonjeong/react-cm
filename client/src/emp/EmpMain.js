@@ -122,41 +122,42 @@ const EmpMain = props => {
     }
 
     return (
-
-        <div className="container">
-            <div className="header">
-            <h2>{name}님 안녕하세요.</h2>
-            <p> MetamaskAddress ({address})</p>
-            <Logout/>
-            </div>
-            <div className="flex-row">
-                <div className="flex-large one-thirds">
-                    {editing ? (
-                        <Fragment>
-                            <h2>Editing Career</h2>
-                            <EditCareerForm
-                                editing={editing}
-                                setEditing={setEditing}
-                                currentCareer={currentCareer}
-                                updateCareer={updateCareer}
-                            />
-                        </Fragment>
-                    ) : (
-                        <Fragment>
-                            <h2>Add Career</h2>
-                            <AddCareerForm addCareer={addCareer} />
-                        </Fragment>
-                    )}
+        <div className="empRoot">
+                <div className="empContainer">
+                <div className="header">
+                <h2>{name}님 안녕하세요.</h2>
+                <p> MetamaskAddress ({address})</p>
+                <Logout/>
                 </div>
-                <div className="flex-large two-thirds">
-                    <h2>View career</h2>
-                    <EmpCareerTbl
-                        careers={careers}
-                        editRow={editRow}
-                        deleteCareer={deleteCareer}
-                        verify={props.verify}
-                        user={props.user}
-                    />
+                <div className="flex-row">
+                    <div className="flex-large one-thirds">
+                        {editing ? (
+                            <Fragment>
+                                <h2>Editing Career</h2>
+                                <EditCareerForm
+                                    editing={editing}
+                                    setEditing={setEditing}
+                                    currentCareer={currentCareer}
+                                    updateCareer={updateCareer}
+                                />
+                            </Fragment>
+                        ) : (
+                            <Fragment>
+                                <h2>Add Career</h2>
+                                <AddCareerForm addCareer={addCareer} />
+                            </Fragment>
+                        )}
+                    </div>
+                    <div className="flex-large two-thirds">
+                        <h2>Career List</h2>
+                        <EmpCareerTbl
+                            careers={careers}
+                            editRow={editRow}
+                            deleteCareer={deleteCareer}
+                            verify={props.verify}
+                            user={props.user}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

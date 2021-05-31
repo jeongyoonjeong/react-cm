@@ -1,7 +1,17 @@
-/* button.logout {
-    background-color: #ffffff;
-    font-style: #5268f4;
-} */
+
+.empRoot {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: #5268f4;
+    height: 100%;
+}
+.empContainer {
+    width:80%;
+    background: white;
+    padding-left: 50px;
+    padding-right: 50px;
+}
 
 .addCareerForm {
     width:100%;
@@ -10,4 +20,12 @@
 
 .addCareerForm[name="summary"]{
     height: 110px;
+}
+
+.summary {
+    overflow: hidden;
+}
+
+.careerListBody>tr>.title {
+    width: 10%
 }

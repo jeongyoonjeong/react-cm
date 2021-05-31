@@ -24,11 +24,8 @@ const VerifyResult = props => {
         })();
     },[])
 
-    return (
-        !loading ?
-        <img style={imgStyle} src={loadingGif} ></img> 
-            : result ?
-                <p>인증 완료</p> : <p>인증 미완료</p>
-            )
+    return (<div className="verified"> {!loading ?
+                    <img style={imgStyle} src={loadingGif} ></img> 
+                            : result ? (<span>인증<br/> 완료</span>) : (<span>인증<br/>미완료</span>) }</div>)
 };
 export default VerifyResult;

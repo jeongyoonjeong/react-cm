@@ -12,7 +12,7 @@ const Logout = () => {
 
     return logout ? 
         <Redirect to={'/login'} /> :
-             (<button class="logout" onClick={onClick}>logout</button>)
+             (<button className="logout" onClick={onClick}>logout</button>)
 }
 
 export default Logout;

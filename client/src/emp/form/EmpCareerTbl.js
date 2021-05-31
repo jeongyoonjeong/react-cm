@@ -1,5 +1,5 @@
 import React from 'react';
-import VerifyResult from "./VerifyResult";
+import VerifyResult from "../../web3/VerifyResult";
 
 const EmpCareerTbl = props => {
     const {address} = sessionStorage;

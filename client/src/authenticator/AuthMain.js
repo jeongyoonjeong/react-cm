@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 
 import Authority from "../web3/authority";
 import AuthCareerTbl from "./form/AuthCareerTbl";
+import Logout from "../join/Logout";
 
 const AuthMain = props =>{
 
@@ -45,6 +46,7 @@ const AuthMain = props =>{
             <div>
                 <h2>{name}님 안녕하세요.</h2>
                 <p> MetamaskAddress ({address})</p>
+                <Logout/>
                 <div className="flex-row">
                 <div className="flex-large">
                 <AuthCareerTbl

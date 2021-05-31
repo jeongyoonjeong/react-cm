@@ -4,6 +4,7 @@ import AddCareerForm from './form/AddCareerForm'
 import EditCareerForm from './form/EditCareerForm'
 import EmpCareerTbl from './form/EmpCareerTbl'
 import Receipt from '../web3/ReceiptModal'
+import Logout from '../join/Logout';
 import './emp.css';
 
 // import './career.css'
@@ -126,7 +127,7 @@ const EmpMain = props => {
             <div className="header">
             <h2>{name}님 안녕하세요.</h2>
             <p> MetamaskAddress ({address})</p>
-            <button className="logout">Logout</button>
+            <Logout/>
             </div>
             <div className="flex-row">
                 <div className="flex-large one-thirds">

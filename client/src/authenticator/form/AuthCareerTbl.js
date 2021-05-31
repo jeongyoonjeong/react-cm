@@ -1,8 +1,14 @@
 
 import React from 'react';
-import VerifyResult from '../../emp/form/VerifyResult';
+import VerifyResult from '../../web3/VerifyResult';
 
 const AuthCareerTbl = props => {
+    //날짜 data 치환
+    const dateToString = data_value => {
+        let date = new Date(data_value);
+        return date ?  `${date.getFullYear()}.${date.getMonth()}.${date.getDate()}` : '날짜 정보 없음'
+    } 
+
     return (
     <table className="striped-table">
         <thead>
@@ -25,12 +31,14 @@ const AuthCareerTbl = props => {
                         <td>{career.emp.name}</td>
                         <td>{career.title}</td>
                         <td>{career.summary ? career.summary : '요약 정보 없음'}</td>
-                        <td>{career.start_date ? career.start_date : '시작일'}</td>
-                        <td>{career.end_date ? career.end_date : '종료일'}</td>
+                        <td>{career.start_date ? dateToString(career.start_date) : '시작일'}</td>
+                        <td>{career.end_date ? dateToString(career.end_date) : '종료일'}</td>
+                        <td>
                         <VerifyResult 
                             code={`${career.id}${career.emp.address}${career.auth.address}`}
                             verify={props.verify}
                         />
+                        </td>
                         <td>
                             <button
                                 onClick={() => props.certify(`${career.id}${career.emp.address}${sessionStorage.getItem("address")}`)}

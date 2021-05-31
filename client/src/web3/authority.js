@@ -70,9 +70,12 @@ class Authority extends Component {
 
     render() {
         if(!this.state.web3)
-             return <div>Loading Web3, accounts, and contract...</div> ;
+             return <div className="loadingWeb3">Loading Web3, accounts, and contract...</div>;
         if(this.state.accounts[0] !== sessionStorage.getItem("address"))
-            return (console.log(sessionStorage),<Redirect to={'/login'} />)
+            return (    alert("❗ MetaMask Address가 일치하지 않습니다."),
+                        sessionStorage.clear(),
+                        <Redirect to={'/login'} />
+                    );
     
         return ( sessionStorage.getItem("role") === "ROLE_EMP" ?
                     <EmpMain

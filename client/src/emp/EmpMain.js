@@ -32,6 +32,7 @@ const EmpMain = props => {
         })();
     },[])
 
+
     // const nextCarId = () => Math.max(...careers.map(career=>career.id)) + 1;
     const nextCarId = () => {
         let nextId = fetch(`http://${process.env.REACT_APP_API_HOST}/v1/career/nextId`
@@ -47,11 +48,10 @@ const EmpMain = props => {
     // db 통신
      const addCareer =  async newCareer => {
             const code = `${nextCarId()}${address}${newCareer.authAddr}`;
+           
             const web3Result = await props.register(code);
             const dbResult =  await dbAddCareer(newCareer);
-            
-            
-            console.log(dbResult)
+        
             setCareers([...careers,dbResult]);
     }
 
@@ -63,7 +63,7 @@ const EmpMain = props => {
                 'X-AUTH-TOKEN' : token,
                 'Content-Type' : "application/json"
             },
-           body : JSON.stringify({
+            body : JSON.stringify({
                 id : careers.length+1,
                 title : newCareer.title,
                 summary : newCareer.summary,
@@ -77,50 +77,72 @@ const EmpMain = props => {
                 },
                 regist_date : Date.now()
             })
-        }).then(res=>res.json());
+        });
     }
 
-    const dbUpdateCareer = async career =>  {
-        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career/${career.id}`;
-        const res = await window.fetch(url,{
-            method : 'PATCH',
-            headers : {
-                'X-AUTH-TOKEN' : token,
-                'Content-Type' : 'application/json'
-            },
-            body : career
-        });
-        const data = await res.json();
-        return data;
-    }
 
     const deleteCareer = career => {
         setEditing(false)
         const url = `http://${process.env.REACT_APP_API_HOST}/v1/career/${career.id}/emp/${career.emp.address}/auth/${career.auth.address}`
         window.fetch(url,{
-            'X-AUTH-TOKEN' : token,
-            method : 'DELETE'
-        }).then(_=> setCareers(careers.filter(c=>c.id !== career.id))
-        ).catch(_=>alert("delete failed"))
+            method : 'DELETE',
+            headers: {
+                'X-AUTH-TOKEN' : token,
+            }
+        }).then(_=>{     
+                alert("😊 경력 삭제 완료")
+                setCareers(careers.filter(c=>c.id !== career.id))
+        }).catch(_=>alert("😥 경력 삭제 실패"))
 
     }
 
-    const updateCareer = career => {
-         
-        const code = `${career.id}${address}${career.authAddr}`;
-        const dbResult = dbUpdateCareer(career);
+    const updateCareer = async () => {
+     
+        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
+        try{
+            const res = await window.fetch(url,{
+                method : 'PATCH',
+                headers : {
+                    'X-AUTH-TOKEN' : token,
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({
+                    id : currentCareer.id,
+                    title : currentCareer.title,
+                    summary : currentCareer.summary,
+                    start_date : currentCareer.start_date,
+                    end_date : currentCareer.end_date,
+                    deleteAt : currentCareer.deleteAt
+                })
+            });
+            const result = await res.json();           
+            alert("😊 경력 수정 완료")
             
-        console.log(dbResult);
-        setCareers([...careers,dbResult]);
-        setEditing(false);     
+            setCareers(careers.map(career=>career.id===result.id ? result : career));
+            setEditing(false);     
+          
+        }catch(err){
+            alert("😥 경력 수정 실패")
+        }
     }
 
 
-    function editRow(career) {
+    /* edit 함수 끌어올리기 */
+    const setAuthAddress = authAddr => {
+        setCurrentCareer({...currentCareer, authAddr : authAddr })
+    }
+
+    const handleEditingInputChange = event => {
+            const { name, value } = event.target
+            setCurrentCareer({...currentCareer, [name]: value })
+        }
+
+    const editRow = career => {
         setEditing(true)
         setCurrentCareer(career);
     }
 
+    //todo. css 나누기
     return (
         <div className="empRoot">
                 <div className="empContainer">
@@ -138,6 +160,8 @@ const EmpMain = props => {
                                     editing={editing}
                                     setEditing={setEditing}
                                     currentCareer={currentCareer}
+                                    handleEditingInputChange={handleEditingInputChange}
+                                    setAuthAddress={setAuthAddress}
                                     updateCareer={updateCareer}
                                 />
                             </Fragment>

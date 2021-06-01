@@ -3,9 +3,9 @@ import React, { useState, useEffect, Fragment } from 'react'
 import AddCareerForm from './form/AddCareerForm'
 import EditCareerForm from './form/EditCareerForm'
 import EmpCareerTbl from './form/EmpCareerTbl'
-import Receipt from '../web3/ReceiptModal'
-import Logout from '../join/Logout';
-import './emp.css';
+import Receipt from '../../web3/ReceiptModal'
+import Logout from '../../join/Logout';
+
 
 // import './career.css'
 
@@ -13,10 +13,14 @@ import './emp.css';
 const EmpMain = props => {
 
     const {address, name,token} = sessionStorage;
-    // Setting state
+
+    //career table state
     let [ careers, setCareers ] = useState([]);
+    //career edit form state
     let [ currentCareer, setCurrentCareer ] = useState()
     let [ editing, setEditing ] = useState(false)
+
+    //receipt form state
 
 
     useEffect(()=>{
@@ -144,18 +148,13 @@ const EmpMain = props => {
 
     //todo. css 나누기
     return (
-        <div className="empRoot">
                 <div className="empContainer">
-                <div className="header">
-                <h2>{name}님 안녕하세요.</h2>
-                <p> MetamaskAddress ({address})</p>
-                <Logout/>
-                </div>
+                    {/* todo. css관련 클래스 수정하기 */}
                 <div className="flex-row">
                     <div className="flex-large one-thirds">
                         {editing ? (
                             <Fragment>
-                                <h2>Editing Career</h2>
+                                <h2>경력 수정</h2>
                                 <EditCareerForm
                                     editing={editing}
                                     setEditing={setEditing}
@@ -167,13 +166,13 @@ const EmpMain = props => {
                             </Fragment>
                         ) : (
                             <Fragment>
-                                <h2>Add Career</h2>
+                                <h2>경력 추가</h2>
                                 <AddCareerForm addCareer={addCareer} />
                             </Fragment>
                         )}
                     </div>
                     <div className="flex-large two-thirds">
-                        <h2>Career List</h2>
+                        <h2>등록된 경력 정보</h2>
                         <EmpCareerTbl
                             careers={careers}
                             editRow={editRow}
@@ -184,7 +183,6 @@ const EmpMain = props => {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 

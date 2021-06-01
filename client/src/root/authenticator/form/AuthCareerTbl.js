@@ -1,6 +1,6 @@
 
 import React from 'react';
-import VerifyResult from '../../web3/VerifyResult';
+import VerifyResult from '../../../web3/VerifyResult';
 
 const AuthCareerTbl = props => {
     //날짜 data 치환

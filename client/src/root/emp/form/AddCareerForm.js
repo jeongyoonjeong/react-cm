@@ -2,13 +2,15 @@ import React ,{ useState } from 'react';
 import SerachAuth from "./SerachAuth";
 import 'antd/dist/antd.css';
 
+
 const AddCareerForm = props  => {
     const initialFormState = {
         title : '',
         summary : '',
         authAddr : '',
         start_date : '',
-        end_date : ''
+        end_date : '',
+        delete_at : ''
     }
 
     const [ career, setCareer ] = useState(initialFormState)
@@ -60,27 +62,26 @@ const AddCareerForm = props  => {
         else return;
         setCareer(initialFormState)
     }
-    
      // SearchAuth에서 검색된 addr를  받아서 state에 적용
     const setAuthAddress = authAddr => {
         setCareer({...career, authAddr : authAddr});
     }
 
     return (
-            <form onSubmit={onSubmit}>
+            <form className="addCareerForm" onSubmit={onSubmit}>
             <label>경력 제목</label>
             <input type="text" name="title" value={career.title} onChange={handleInputChange} />
-            <br/><span style={{ color : 'red'}}>{error["title"]} </span>
+            <div style={{ color : 'red'}}>{error["title"]} </div>
             <label>내용 기술</label>
-            <input type="text" name="summary" value={career.summary} onChange={handleInputChange}  />
-            <br/><span style={{ color : 'red'}}>{error["summary"]} </span>
+            <textarea name="summary" value={career.summary} onChange={handleInputChange}  />
+            <div style={{ color : 'red'}}>{error["summary"]} </div>
             <label>인증처 address</label>
             <SerachAuth
                 setAuthAddress = {setAuthAddress}
-                authAddr={career.authAddr}
+                // authAddr={career.authAddr}
                 key={career.authAddr}
             />
-            <br/><span style={{ color : 'red'}}>{error["authAddr"]} </span>
+            <div style={{ color : 'red'}}>{error["authAddr"]} </div>
             <label>근무 기간</label>
             <label>시작일</label>
             <input type="date" name="start_date" value={career.start_date} onChange={handleInputChange}  />

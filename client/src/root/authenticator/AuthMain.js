@@ -1,11 +1,10 @@
 
 import React, {useState, useEffect} from "react";
 
-import Authority from "../web3/authority";
 import AuthCareerTbl from "./form/AuthCareerTbl";
-import Logout from "../join/Logout";
+import Logout from "../../join/Logout";
 
-import './auth.css';
+
 
 const AuthMain = props =>{
 
@@ -45,11 +44,10 @@ const AuthMain = props =>{
         console.log(code);
     }
         return (
-            <div className="authRoot">
                 <div className="authContainer">
-                    <h2>{name}님 안녕하세요.</h2>
+                    {/* <h2>{name}님 안녕하세요.</h2>
                     <p> MetamaskAddress ({address})</p>
-                    <Logout/>
+                    <Logout/> */}
                     <div className="flex-row">
                     <div className="flex-large">
                     <AuthCareerTbl
@@ -59,7 +57,6 @@ const AuthMain = props =>{
                     />
                     </div></div>
                 </div>
-            </div>
         );
 }
 

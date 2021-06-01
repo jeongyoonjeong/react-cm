@@ -1,0 +1,58 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: #5268f4;
+    height: 100%;
+}
+
+.container {
+    width:80%;
+    background: white;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+/* .empRoot {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: #5268f4;
+    height: 100%;
+} */
+/* .empContainer {
+    width:80%;
+    background: white;
+    padding-left: 50px;
+    padding-right: 50px;
+} */
+
+.addCareerForm {
+    width:100%;
+    background-color: #ffffff;  
+}
+
+.addCareerForm[name="summary"]{
+    height: 110px;
+}
+
+.summary {
+    overflow: hidden;
+}
+
+.careerListBody>.title {
+    width: 10%
+}
+
+/* .authRoot {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: #5268f4;
+    height: 100%;
+}
+.authContainer {
+    width:80%;
+    background: white;
+    padding-left: 50px;
+    padding-right: 50px;
+} */

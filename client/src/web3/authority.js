@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import CareerManagement from "../contracts/CareerManagement.json";
 import getWeb3 from "./getWeb3";
-import EmpMain from "../emp/EmpMain";
-import AuthMain from "../authenticator/AuthMain";
+import Main from "../root/Main";
+
 import {Redirect} from "react-router";
 
 
@@ -14,7 +14,6 @@ class Authority extends Component {
             web3: null,
             accounts: null,
             contract: null,
-            // user : sessionStorage.getItem("user");
         };
     }
 
@@ -69,28 +68,23 @@ class Authority extends Component {
     verifyCareer =  async code =>  this.state.contract.methods.verify(code).call();
 
     render() {
+        
         if(!this.state.web3)
              return <div className="loadingWeb3">Loading Web3, accounts, and contract...</div>;
+        
         if(this.state.accounts[0] !== sessionStorage.getItem("address"))
-            return (    alert("❗ MetaMask Address가 일치하지 않습니다."),
+            return (    alert("😅 MetaMask Address가 일치하지 않습니다."),
                         sessionStorage.clear(),
                         <Redirect to={'/login'} />
                     );
-    
-        return ( sessionStorage.getItem("role") === "ROLE_EMP" ?
-                    <EmpMain
-                        web3={this.state}
-                        verify={this.verifyCareer}
-                        register={this.registerCareer}
-                    /> :
-                ( sessionStorage.getItem("role") === "ROLE_AUTH" ?
-                        <AuthMain
-                            web3={this.state}
-                            verify={this.verifyCareer}
-                            certify={this.certifyContent}
-                        />
-                    : <div> common user page </div>)
-        );
+
+        //jwt token 만료 시간 넣기..
+        return <Main 
+                    web3={this.state}
+                    verify={this.verifyCareer}
+                    register={this.registerCareer}
+                    certify={this.certifyContent}
+                />
     }
 }
 export default Authority;

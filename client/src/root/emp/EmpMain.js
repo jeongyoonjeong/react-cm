@@ -4,11 +4,6 @@ import AddCareerForm from './form/AddCareerForm'
 import EditCareerForm from './form/EditCareerForm'
 import EmpCareerTbl from './form/EmpCareerTbl'
 import Receipt from '../../web3/ReceiptModal'
-import Logout from '../../join/Logout';
-
-
-// import './career.css'
-
 
 const EmpMain = props => {
 
@@ -21,6 +16,9 @@ const EmpMain = props => {
     let [ editing, setEditing ] = useState(false)
 
     //receipt form state
+    let [ receiptState, setReceiptState ] = useState(false);
+    let [ receipt, setReceipt ] = useState({});
+
 
 
     useEffect(()=>{
@@ -47,41 +45,45 @@ const EmpMain = props => {
     }
     
     
-    // 경력추가 Event
+    // 경력 추가 
     // web3 통신
-    // db 통신
+    // db Server 통신
      const addCareer =  async newCareer => {
-            const code = `${nextCarId()}${address}${newCareer.authAddr}`;
+            const nextId = await nextCarId();
+            const code = `${nextId}${address}${newCareer.authAddr}`;
+            console.log(nextId)
            
             const web3Result = await props.register(code);
-            const dbResult =  await dbAddCareer(newCareer);
-        
-            setCareers([...careers,dbResult]);
-    }
 
-    const dbAddCareer = async newCareer => {
-        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
-        return await fetch(url,{
-            method : 'POST',
-            headers : {
-                'X-AUTH-TOKEN' : token,
-                'Content-Type' : "application/json"
-            },
-            body : JSON.stringify({
-                id : careers.length+1,
-                title : newCareer.title,
-                summary : newCareer.summary,
-                start_date : newCareer.start_date,
-                end_date : newCareer.end_date,
-                auth : {
-                    address: newCareer.authAddr
+            const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
+            const res =  await fetch(url,{
+                method : 'POST',
+                headers : {
+                    'X-AUTH-TOKEN' : token,
+                    'Content-Type' : "application/json"
                 },
-                emp : {
-                    address : address
-                },
-                regist_date : Date.now()
-            })
-        });
+                body : JSON.stringify({
+                    id : nextId,
+                    title : newCareer.title,
+                    summary : newCareer.summary,
+                    start_date : newCareer.start_date,
+                    end_date : newCareer.end_date,
+                    auth : {
+                        address: newCareer.authAddr
+                    },
+                    emp : {
+                        address : address
+                    },
+                    regist_date : Date.now()
+                })
+            });
+
+            const result = await res.json();
+            if(web3Result){
+                setReceipt(web3Result);    
+                setReceiptState(true);
+            }
+            if(result)  setCareers([...careers,result]);
     }
 
 
@@ -103,6 +105,7 @@ const EmpMain = props => {
     const updateCareer = async () => {
      
         const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
+        
         try{
             const res = await window.fetch(url,{
                 method : 'PATCH',
@@ -120,11 +123,11 @@ const EmpMain = props => {
                 })
             });
             const result = await res.json();           
-            alert("😊 경력 수정 완료")
             
+            alert("😊 경력 수정 완료")
             setCareers(careers.map(career=>career.id===result.id ? result : career));
             setEditing(false);     
-          
+
         }catch(err){
             alert("😥 경력 수정 실패")
         }
@@ -146,10 +149,16 @@ const EmpMain = props => {
         setCurrentCareer(career);
     }
 
+    const handleReceiptModal = e => {
+        //modal render 중지
+        setReceiptState(false);
+    }
+
     //todo. css 나누기
     return (
                 <div className="empContainer">
-                    {/* todo. css관련 클래스 수정하기 */}
+                    {/* todo. css관련 클래스 수정하기, 경력정보 overflow 수정 */}
+                {receiptState && (<Receipt receipt={receipt} handleReceiptModal={handleReceiptModal}/>)}
                 <div className="flex-row">
                     <div className="flex-large one-thirds">
                         {editing ? (

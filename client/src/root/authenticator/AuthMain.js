@@ -8,13 +8,12 @@ import AuthCareerTbl from "./form/AuthCareerTbl";
 
 const AuthMain = props =>{
 
-    const {address, name,token} = sessionStorage;
+    const {address, token} = sessionStorage;
     let [ careers, setCareers ] = useState([]);
     
     //receipt form state
     let [ receiptState, setReceiptState ] = useState(false);
     let [ receipt, setReceipt ] = useState({});
-
 
     useEffect( ()=>{ (async function ()  {
         let url = `http://${process.env.REACT_APP_API_HOST}/v1/careers/auth/${address}`;
@@ -30,15 +29,16 @@ const AuthMain = props =>{
             alert(e.message);
         };
         })();
-
     },[]);
 
+    const forceUpdate = React.useReducer(() => ({}))[1]
+    
     const callCertify = async code => {
         const receipt = await props.certify(code);
-        console.log(receipt);
         setReceipt(receipt);
         setReceiptState(true);
-        setCareers([...careers])    //career table re-rendering            
+        forceUpdate();                  //career table re-rendering
+   
     }
 
     const handleReceiptModal = e => {

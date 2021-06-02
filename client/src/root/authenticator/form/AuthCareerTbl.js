@@ -10,6 +10,7 @@ const AuthCareerTbl = props => {
     } 
 
     return (
+        console.log("rendering"),
     <table className="striped-table">
         <thead>
         <tr>

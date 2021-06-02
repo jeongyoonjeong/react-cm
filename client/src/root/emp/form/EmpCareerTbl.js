@@ -32,7 +32,7 @@ const EmpCareerTbl = props => {
                     <td className="summary">{career.summary ? career.summary : '요약 정보 없음'}</td>
                     <td className="start_date">{dateToString(career.start_date)}</td>
                     <td className="end_date">{dateToString(career.end_date)}</td>
-                    <td className="auth">{career.auth.name}</td>
+                    <td className="auth">{career.auth.name || 'error' }</td>
                     <td className="verified">
                     <VerifyResult
                         code={`${career.id}${address}${career.auth.address}`}

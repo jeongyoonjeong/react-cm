@@ -14,15 +14,15 @@ const Main = props => {
         <div className="main">
             <div className="container">
                 <div className="header">
-                <h2>{name}님 안녕하세요.</h2>
-                <p> 🦊 Metamask Address <b>{address}</b> 🦊</p>
                 <Logout/>
+                <h2 className="userHeader">{name}님 안녕하세요.</h2>
+                <p className="metamaskHeader"> <b>🦊 METAMASK ADDRESS 🦊</b><br/>{address}</p>
                 </div>
             {sessionStorage.getItem("role") === "ROLE_EMP" ?
                     <EmpMain
                         web3={props.web3}
                         verify={props.verify}
-                        register={props.registerCareer}
+                        register={props.register}
                     /> :
                 ( sessionStorage.getItem("role") === "ROLE_AUTH" ?
                         <AuthMain

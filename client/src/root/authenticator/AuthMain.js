@@ -2,7 +2,6 @@
 import React, {useState, useEffect} from "react";
 
 import AuthCareerTbl from "./form/AuthCareerTbl";
-import Logout from "../../join/Logout";
 
 
 

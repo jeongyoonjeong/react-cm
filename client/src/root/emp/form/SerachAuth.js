@@ -32,7 +32,7 @@ const SearchAuth = props => {
         setMatched(
             !searchText ? [] : auths.filter(auth=>{
                 let matcher = new RegExp(searchText,'g');
-                return  auth.name.match(matcher);
+                return auth.name && auth.name.match(matcher);
             }) ,
         );
     };

@@ -102,8 +102,7 @@ const EmpMain = props => {
 
     }
 
-    const updateCareer = async () => {
-     
+    const updateCareer = async () => {   
         const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
         
         try{
@@ -119,7 +118,9 @@ const EmpMain = props => {
                     summary : currentCareer.summary,
                     start_date : currentCareer.start_date,
                     end_date : currentCareer.end_date,
-                    deleteAt : currentCareer.deleteAt
+                    deleteAt : currentCareer.deleteAt,  
+                    emp : currentCareer.emp,
+                    auth : currentCareer.auth
                 })
             });
             const result = await res.json();           

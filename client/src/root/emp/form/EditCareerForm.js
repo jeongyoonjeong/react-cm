@@ -1,43 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import SerachAuth from "./SerachAuth";
 
-const EditCareerForm = props => {
-
-    // const vaildateCareer = () => {
-
-    //     let fields = props.currentCareer;
-    //     let errors = {};
-    //     let formIsValid = true;
-
-    //     //title
-    //     if(!fields["title"]){
-    //         formIsValid = false;
-    //         errors["title"] = "Cannot be empty";
-    //     }
-    //     //summary
-    //     if(!fields["summary"]){
-    //         formIsValid = false;
-    //         errors["summary"] = "Cannot be empty";
-    //     }
-
-    //     //authAddress
-    //     if(!fields["auth"]){
-    //         formIsValid = false;
-    //         errors["auth"] = "Cannot be empty";
-    //     }
-
-    //     if(typeof fields["auth"]["address"] !== "undefined"){
-    //         if(!fields["auth"]["address"].match(/[a-zA-Z0-9]{42}/g)){
-    //             formIsValid = false;
-    //             errors["auth"]["address"] = "this is not blockchain address";
-    //         }
-    //     }
-    //     setError(errors);
-    //     return formIsValid;
-    // }
-
-  
-        return (console.log(props.currentCareer),
+const EditCareerForm = props => (
             <form
                 onSubmit={event => {
                     event.preventDefault()
@@ -69,7 +33,7 @@ const EditCareerForm = props => {
                     Cancel
                 </button>
             </form>
-        )
-}
+);
+
 
 export default EditCareerForm;

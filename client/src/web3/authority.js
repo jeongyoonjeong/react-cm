@@ -53,15 +53,14 @@ class Authority extends Component {
 
     //인증자 트랜잭션
     certifyContent = async code => {
-        const { accounts, contract } = this.state;
+        const { accounts, contract } = this.state;   
         try{
-            const result = await contract.methods.certify(code).send({from:accounts[0]})
-            console.log(result)
+            const res = await contract.methods.certify(code).send({from:accounts[0]});
+            return res;
         }catch (e) {
             alert("인증 권한이 없는 계정입니다");
-            return;
+            return e;
         }
-        const response = contract.methods.verify(code).call();
     };
 
     //view 트랜잭션 호출

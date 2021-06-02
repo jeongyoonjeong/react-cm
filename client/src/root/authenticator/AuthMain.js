@@ -1,5 +1,6 @@
 
 import React, {useState, useEffect} from "react";
+import ReceiptModal from "../../web3/ReceiptModal";
 
 import AuthCareerTbl from "./form/AuthCareerTbl";
 
@@ -9,6 +10,10 @@ const AuthMain = props =>{
 
     const {address, name,token} = sessionStorage;
     let [ careers, setCareers ] = useState([]);
+    
+    //receipt form state
+    let [ receiptState, setReceiptState ] = useState(false);
+    let [ receipt, setReceipt ] = useState({});
 
 
     useEffect( ()=>{ (async function ()  {
@@ -19,14 +24,7 @@ const AuthMain = props =>{
                     'X-AUTH-TOKEN' : token
                 }                
             });
-            console.log(res);
-            const result = [...await res.json()];
-            // console.log(result);
-            // const verifiedCareer = result.map(career=>{
-            //     let code = `${career.id}${career.emp.address}${sessionStorage.getItem("address")}`;
-            //     let verified = props.verify(code)
-            //     return {...career, verified: verified};
-            // })
+            const result = await res.json();
             setCareers(result);
         }catch(e){
             alert(e.message);
@@ -35,18 +33,20 @@ const AuthMain = props =>{
 
     },[]);
 
-    
+    const callCertify = async code => {
+        const receipt = await props.certify(code);
+        console.log(receipt);
+        setReceipt(receipt);
+        setReceiptState(true);
+        setCareers([...careers])    //career table re-rendering            
+    }
 
-
-    const callCertify = code => {
-        props.certify(code).then(r => console.log(r))
-        console.log(code);
+    const handleReceiptModal = e => {
+        setReceiptState(false);
     }
         return (
                 <div className="authContainer">
-                    {/* <h2>{name}님 안녕하세요.</h2>
-                    <p> MetamaskAddress ({address})</p>
-                    <Logout/> */}
+                    {receiptState && <ReceiptModal receipt={receipt} handleReceiptModal={handleReceiptModal}/>}
                     <div className="flex-row">
                     <div className="flex-large">
                     <AuthCareerTbl

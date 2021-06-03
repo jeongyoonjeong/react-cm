@@ -1,44 +1,30 @@
 const CM = artifacts.require("./CareerManagement.sol");
+  
 
 contract("CareerManagement", (accounts) => {
   let cm;
-
   before(async () => {
     cm = await CM.deployed();
+    await cm.addAuthorizer(accounts[9]);
   });
 
-  console.log(`${accounts[0]}${accounts[9]}`)
-  it("1) 커리어 정상 등록", async () => {
-    let register = await cm.register("40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9",{ from : accounts[9] });
-    assert.equal(register.receipt.status,true, "error");
-  });
+  
+  describe("테스트 커리어 정보 등록", async () => {
+    const careerId = '99'
+    const testCode = `${careerId}${accounts[0]}${accounts[9]}`;
+    before("register call. \ncode = careerId + accounts[0] + authorizerAddress", async () => {
+        const registerResult = await cm.register(testCode, { from: accounts[0] });
+    });
+  
+    it("1) 커리어 인증 상태 확인", async () => {  
+      let careerStatus = await cm.verify(testCode,{ from : accounts[0] });
+      assert.equal(careerStatus, false, "ERR : 정보 등록에 문제가 있습니다.");
+    });
 
-  it("2) 커리어 인증", async () => {
-    await cm.register("40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9",{ from : accounts[9] });
-    // 인증 전
-    let result = await cm.verify("40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9");
-    assert.equal(result,false, "error");
-
-    await cm.certify("40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9",{ from : accounts[9] })
-
-    // 인증 후
-    result = await cm.verify("40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9");
-    assert.equal(result,true, "error");
-  // });
-    // // 코드 생성
-    // let registerResult = await contractInstance.methods.certify('40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9', { from: accounts[0] });
-    // console.log(registerResult);
-    // // 인증여부 확인
-    // const verifyResult = await contractInstance.methods.verify('40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9').call();
-    // console.log(`log1:${verifyResult}`)
-    // assert.equal(verifyResult, false, "not certified yet");
-    //
-    //
-    // //
-    // const certifyResult = await contractInstance.methods.certify('40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9',{ from : accounts[0] });
-    // const verifyResult2 = await contractInstance.methods.verify('40x0e775a16f3Dd9379e7bFc4F902293371e1C1dF170x11ef727907AB84938fE19DD1028991BEd7855BD9').call();
-    // console.log(`log:${verifyResult2}`)
-    // assert.equal(verifyResult2, true, "certified");
-
+    it("2) 커리어 인증", async () => {
+      await cm.certify(testCode, { from : accounts[9] });
+      let result = await cm.verify(testCode, { from : accounts[0] });
+      assert.equal(result,true, "ERR : 정보 인증에 문제가 있습니다"); 
+    });
   });
 });

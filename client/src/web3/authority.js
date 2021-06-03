@@ -19,15 +19,14 @@ class Authority extends Component {
 
     componentDidMount = async () => {
         try {
-            // Get network provider and web3 instance.
             const web3 = await getWeb3();
-
-            // Use web3 to get the user's accounts.
+            
             const accounts =  await web3.eth.getAccounts();
-
-            // Get the contract instance.
+            
             const networkId =  await web3.eth.net.getId();
+            
             const deployedNetwork = CareerManagement.networks[networkId];
+            
             const instance = new web3.eth.Contract(
                 CareerManagement.abi,
                 deployedNetwork && deployedNetwork.address,
@@ -36,7 +35,6 @@ class Authority extends Component {
             this.setState({ web3 : web3, accounts : accounts, contract: instance });
 
         } catch (error) {
-            // Catch any errors for any of the above operations.
             alert(
                 `Failed to load web3, accounts, or contract. Check console for details.`,
             );
@@ -68,7 +66,7 @@ class Authority extends Component {
 
     render() {
         
-        if(!this.state.web3)
+        if(!this.state.web3 || !this.state.accounts[0])
              return <div className="loadingWeb3">Loading Web3, accounts, and contract...</div>;
         
         if(this.state.accounts[0] !== sessionStorage.getItem("address"))

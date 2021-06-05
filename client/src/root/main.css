@@ -95,6 +95,50 @@
     transform: translate(-50%,-50%);
 }
 
+/* EmpInfoModal.js */
+.empInfo-dimmer {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    background: #00000080;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.empInfo-container {    
+    width: 700px;
+    height: 730px;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 20px;
+    box-shadow: 4px 4px 3px 0px black;
+}
+
+.empInfo-contents {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+}
+
+.empInfo-contents>h2 {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    color: #5268f4;
+    text-shadow: 1px 1.5px 1px black;
+}
+
+.empInfoButton{
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
 /* .authRoot {
     display: flex;
     justify-content: center;

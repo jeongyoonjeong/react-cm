@@ -26,10 +26,9 @@ const AuthCareerTbl = props => {
         <tbody>
         { props.careers ? (
             props.careers.map(career => {
-                console.log(career)
                 return (
                     <tr key={career.id}>
-                        <td>{career.emp.name}</td>
+                        <td  onClick={()=>props.handleEmpModal(career.emp)}>{career.emp.name}</td>
                         <td>{career.title}</td>
                         <td>{career.summary ? career.summary : '요약 정보 없음'}</td>
                         <td>{career.start_date ? dateToString(career.start_date) : '시작일'}</td>

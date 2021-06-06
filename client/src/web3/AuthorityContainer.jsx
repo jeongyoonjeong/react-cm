@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import CareerManagement from "../contracts/CareerManagement.json";
 import getWeb3 from "./getWeb3";
-import Main from "../root/Main";
+import Main from "../root/MainPresenter";
 
 import {Redirect} from "react-router";
 
@@ -45,9 +45,6 @@ class Authority extends Component {
     //근로자 트랜잭션
     registerCareer = async code => await this.state.contract.methods.register(code).send({from: this.state.accounts[0]});
 
-    //임시 블록체인 메소드
-    // todo. delete web3통신 구현
-    deleteCareer = async code => await console.log(`deleted code :  ${code}`);
 
     //인증자 트랜잭션
     certifyContent = async code => {
@@ -75,7 +72,6 @@ class Authority extends Component {
                         <Redirect to={'/login'} />
                     );
 
-        //jwt token 만료 시간 넣기..
         return <Main 
                     web3={this.state}
                     verify={this.verifyCareer}

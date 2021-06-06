@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import SocialLogin from "./SocialLogin";
-import LoginForm from "./LoginForm";
+import LoginForm from "./SigninPresenter";
 
 const Login = () => {
 

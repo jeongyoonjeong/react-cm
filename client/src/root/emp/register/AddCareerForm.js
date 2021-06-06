@@ -1,5 +1,5 @@
 import React ,{ useState } from 'react';
-import SerachAuth from "./SerachAuth";
+import SerachAuth from "../AuthsAutoComplete";
 import 'antd/dist/antd.css';
 
 

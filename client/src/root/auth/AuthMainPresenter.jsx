@@ -1,16 +1,11 @@
 
 import React from 'react';
-import VerifyResult from '../../../web3/VerifyResult';
+import VerifyResult from '../../web3/VerifyResultPresenter';
+import dateToString from '../common/dateToString';
 
-const AuthCareerTbl = props => {
-    //날짜 data 치환
-    const dateToString = data_value => {
-        let date = new Date(data_value);
-        return date ?  `${date.getFullYear()}.${date.getMonth()}.${date.getDate()}` : '날짜 정보 없음'
-    } 
-
-    return (
-        console.log("rendering"),
+const AuthCareerTbl = props =>
+(
+    console.log("rendering"),
     <table className="striped-table">
         <thead>
         <tr>
@@ -59,6 +54,6 @@ const AuthCareerTbl = props => {
     </tbody>
     </table>
 );
-}
+
 
 export default AuthCareerTbl;

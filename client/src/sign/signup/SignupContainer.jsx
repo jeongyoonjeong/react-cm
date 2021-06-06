@@ -1,11 +1,10 @@
 import React , {useState} from "react";
 // import './join.css';
-import JoinForm from './JoinForm'
+import JoinForm from './SignupPresenter'
 import {Link} from "react-router-dom";
-import SocialLogin from "./SocialLogin";
+import SocialLogin from "../signIn/SocialLogin";
 
-import "./joinStyle.css";
-import "./IconStyle";
+import "../SignStyle.css";
 
 
 

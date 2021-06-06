@@ -10,8 +10,7 @@ const Logout = () => {
         sessionStorage.clear();
         setLoggout(true); 
     }
-//todo. session 만료 시간 컴포넌트 만들기
-
+    
     return logout ? 
         <Redirect to={'/login'} /> :
              (<button className="logout"  onClick={onClick}>logout</button>)

@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import SerachAuth from "./SerachAuth";
+import SerachAuth from "../AuthsAutoComplete";
 
 const EditCareerForm = props => (
             <form

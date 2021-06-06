@@ -1,9 +1,9 @@
 import React from 'react';
-import EmpMain from './emp/EmpMain';
-import AuthMain from './authenticator/AuthMain';
-import Logout from '../join/Logout'
+import EmpMain from './emp/EmpMainContainer';
+import AuthMain from './auth/AuthMainContainer';
+import Logout from '../sign/signin/SignoutPresenter'
 
-import './main.css';
+import '../mainStyle/MainStyle.css';
 
 
 const Main = props => {

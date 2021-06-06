@@ -1,14 +1,9 @@
 import React from 'react';
-import VerifyResult from "../../../web3/VerifyResult";
+import VerifyResult from "../../web3/VerifyResultPresenter";
+import dateToString from '../common/dateToString';
 
 const EmpCareerTbl = props => {
     const {address} = sessionStorage;
-
-    //날짜 data 치환
-    const dateToString = data_value => {
-        let date = new Date(data_value);
-        return date ?  `${date.getFullYear()}.${date.getMonth()}.${date.getDate()}` : '날짜 정보 없음'
-    } 
 
     return (
     <table className="striped-table">

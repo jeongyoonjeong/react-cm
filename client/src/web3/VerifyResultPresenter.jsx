@@ -3,6 +3,7 @@ import loadingGif from '../resources/ajax-loader.gif'
 
 const VerifyResult = props => {
     const { verify , code } = props;
+    
     const [ result , setResult ] = useState();
     const [ loading , setLoading ] = useState(false);
 
@@ -22,7 +23,7 @@ const VerifyResult = props => {
                 console.log(e.message);
             }
         })();
-    },[])
+    },[props])
 
     return (<div className="verified"> {!loading ?
                     <img style={imgStyle} src={loadingGif} ></img> 

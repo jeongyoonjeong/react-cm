@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react'
 
-import AddCareerForm from './form/AddCareerForm'
-import EditCareerForm from './form/EditCareerForm'
-import EmpCareerTbl from './form/EmpCareerTbl'
-import Receipt from '../../web3/ReceiptModal'
+import AddCareerForm from './register/AddCareerForm'
+import EditCareerForm from './edit/EditCareerPresenter'
+import EmpCareerTbl from './EmpCareersPresenter'
+import Receipt from '../../web3/ModalReceiptPresenter'
 
 const EmpMain = props => {
 
@@ -11,6 +11,7 @@ const EmpMain = props => {
 
     //career table state
     let [ careers, setCareers ] = useState([]);
+    
     //career edit form state
     let [ currentCareer, setCurrentCareer ] = useState()
     let [ editing, setEditing ] = useState(false)

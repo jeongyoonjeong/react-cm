@@ -1,17 +1,17 @@
 
 import React, {useState, useEffect} from "react";
-import ReceiptModal from "../../web3/ReceiptModal";
-import EmpInfoModal from "../EmpInfoModal";
-import AuthCareerTbl from "./form/AuthCareerTbl";
+import ReceiptModal from "../../web3/ModalReceiptPresenter";
+import EmpInfoModal from "./ModalEmpPresenter";
+import AuthCareerTbl from "./AuthMainPresenter";
 
 
 
 const AuthMain = props =>{
 
     const {address, token} = sessionStorage;
+    
     let [ careers, setCareers ] = useState([]);
     
-
     //receipt form state
     let [ receiptState, setReceiptState ] = useState(false);
     let [ receipt, setReceipt ] = useState({});
@@ -42,7 +42,6 @@ const AuthMain = props =>{
         setReceipt(receipt);
         setReceiptState(true);
         forceUpdate();                  //career table re-rendering
-   
     }
 
     const handleEmpModal = emp => {
@@ -59,7 +58,8 @@ const AuthMain = props =>{
     const handleReceiptModal = _ => {
         setReceiptState(false);
     }
-        return (
+    
+    return (
                 <div className="authContainer">
                     {receiptState && <ReceiptModal receipt={receipt} handleReceiptModal={handleReceiptModal}/>}
                     {empInfoState && <EmpInfoModal emp={empInfo} handleEmpModal={handleEmpModal}/>}

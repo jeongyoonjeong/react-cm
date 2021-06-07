@@ -5,7 +5,6 @@ import dateToString from '../common/dateToString';
 
 const AuthCareerTbl = props =>
 (
-    console.log("rendering"),
     <table className="striped-table">
         <thead>
         <tr>

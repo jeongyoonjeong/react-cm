@@ -5,7 +5,7 @@ import Join from "./sign/signup/SignupContainer";
 import Login from "./sign/signin/SigninContainer";
 import Authority from "./web3/AuthorityContainer";
 
-import './mainStyle/MainStyle.css';
+import './commonStyle/CommonStyle.css';
 
 
 

@@ -3,7 +3,7 @@ import EmpMain from './emp/EmpMainContainer';
 import AuthMain from './auth/AuthMainContainer';
 import Logout from '../sign/signin/SignoutPresenter'
 
-import '../mainStyle/MainStyle.css';
+import './MainStyle.css';
 
 
 const Main = props => {

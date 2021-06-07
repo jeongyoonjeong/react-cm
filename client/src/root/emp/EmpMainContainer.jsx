@@ -11,7 +11,7 @@ const EmpMain = props => {
 
     //career table state
     let [ careers, setCareers ] = useState([]);
-    
+
     //career edit form state
     let [ currentCareer, setCurrentCareer ] = useState()
     let [ editing, setEditing ] = useState(false)
@@ -49,44 +49,45 @@ const EmpMain = props => {
     // 경력 추가 
     // web3 통신
     // db Server 통신
-     const addCareer =  async newCareer => {
-            const nextId = await nextCarId();
-            const code = `${nextId}${address}${newCareer.authAddr}`;
-            console.log(nextId)
-           
-            const web3Result = await props.register(code);
+    const addCareer =  async newCareer => {
+        const nextId = await nextCarId();
+        const code = `${nextId}${address}${newCareer.authAddr}`;
 
-            const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
-            const res =  await fetch(url,{
-                method : 'POST',
-                headers : {
-                    'X-AUTH-TOKEN' : token,
-                    'Content-Type' : "application/json"
+        const web3Result = await props.register(code);
+    
+        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
+        
+        const req = new Request(url,{
+            method : 'POST',
+            headers : {
+                'X-AUTH-TOKEN' : token,
+                'Content-Type' : "application/json"
+            },
+            body : JSON.stringify({
+                id : nextId,
+                title : newCareer.title,
+                summary : newCareer.summary,
+                start_date : newCareer.start_date,
+                end_date : newCareer.end_date,
+                auth : {
+                    address: newCareer.authAddr
                 },
-                body : JSON.stringify({
-                    id : nextId,
-                    title : newCareer.title,
-                    summary : newCareer.summary,
-                    start_date : newCareer.start_date,
-                    end_date : newCareer.end_date,
-                    auth : {
-                        address: newCareer.authAddr
-                    },
-                    emp : {
-                        address : address
-                    },
-                    regist_date : Date.now()
-                })
-            });
-
-            const result = await res.json();
-            if(web3Result){
-                setReceipt(web3Result);    
-                setReceiptState(true);
-            }
-            if(result)  setCareers([...careers,result]);
+                emp : {
+                    address : address
+                },
+                regist_date : Date.now()
+            })
+        });
+    
+        const res =  await fetch(url,req);
+        const result = await res.json();
+    
+        if(web3Result){
+            setReceipt(web3Result);    
+            setReceiptState(true);
+        }
+        if(result)  setCareers([...careers,result]);
     }
-
 
     const deleteCareer = career => {
         setEditing(false)

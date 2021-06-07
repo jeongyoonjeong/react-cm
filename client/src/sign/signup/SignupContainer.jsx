@@ -2,7 +2,7 @@ import React , {useState} from "react";
 // import './join.css';
 import JoinForm from './SignupPresenter'
 import {Link} from "react-router-dom";
-import SocialLogin from "../signIn/SocialLogin";
+import SocialLogin from "../signin/SocialLogin";
 
 import "../SignStyle.css";
 

@@ -5,6 +5,7 @@ import EditCareerForm from './edit/EditCareerPresenter'
 import EmpCareerTbl from './EmpCareersPresenter'
 import Receipt from '../../web3/ModalReceiptPresenter'
 
+
 const EmpMain = props => {
 
     const {address, name,token} = sessionStorage;
@@ -25,8 +26,11 @@ const EmpMain = props => {
     useEffect(()=>{
         (async function getCareers(){
             const url = `http://${process.env.REACT_APP_API_HOST}/v1/careers/emp/${address}`;
-            const res = await fetch(url, { headers : { 'X-AUTH-TOKEN' : token }});
+            const req = new Request(url, { headers : { 'X-AUTH-TOKEN' : token }});
             try{
+                const res = await fetch(req);
+                if(String(res.status).startsWith("4"))   throw new Error("client error");
+                if(String(res.status).startsWith("5"))   throw new Error("server error");
                 const data = await res.json();
                 setCareers(data);
             }catch(e){
@@ -37,11 +41,13 @@ const EmpMain = props => {
 
 
     // const nextCarId = () => Math.max(...careers.map(career=>career.id)) + 1;
-    const nextCarId = () => {
-        let nextId = fetch(`http://${process.env.REACT_APP_API_HOST}/v1/career/nextId`
-        , { headers : { 'X-AUTH-TOKEN' : token }})
-        .then(res=>res.json()).then();
-        console.log(nextId);
+    const nextCarId = async () => {
+        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career/nextId`;
+        const req = new Request(url, { headers : { 'X-AUTH-TOKEN' : token }});
+        const res = await fetch(req);
+        if(String(res.status).startsWith("4"))   throw new Error("client error");
+        if(String(res.status).startsWith("5"))   throw new Error("server error");
+        const nextId = await res.json();                
         return nextId;
     }
     
@@ -50,90 +56,109 @@ const EmpMain = props => {
     // web3 통신
     // db Server 통신
     const addCareer =  async newCareer => {
-        const nextId = await nextCarId();
-        const code = `${nextId}${address}${newCareer.authAddr}`;
+        try{
+            const nextId = await nextCarId();
+            const code = `${nextId}${address}${newCareer.authAddr}`;
+            
+            const web3Result = await props.register(code);
+            if(web3Result.status === false) throw new Error("web3 register error..😥");
 
-        const web3Result = await props.register(code);
-    
-        const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
+            const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;     
+            const req = new Request(url,{
+                method : 'POST',
+                headers : {
+                    'X-AUTH-TOKEN' : token,
+                    'Content-Type' : "application/json"
+                },
+                body : JSON.stringify({
+                    id : nextId,
+                    title : newCareer.title,
+                    summary : newCareer.summary,
+                    start_date : newCareer.start_date,
+                    end_date : newCareer.end_date,
+                    auth : {
+                        address: newCareer.authAddr
+                    },
+                    emp : {
+                        address : address
+                    },
+                    regist_date : Date.now()
+                })
+            });
         
-        const req = new Request(url,{
-            method : 'POST',
-            headers : {
-                'X-AUTH-TOKEN' : token,
-                'Content-Type' : "application/json"
-            },
-            body : JSON.stringify({
-                id : nextId,
-                title : newCareer.title,
-                summary : newCareer.summary,
-                start_date : newCareer.start_date,
-                end_date : newCareer.end_date,
-                auth : {
-                    address: newCareer.authAddr
-                },
-                emp : {
-                    address : address
-                },
-                regist_date : Date.now()
-            })
-        });
-    
-        const res =  await fetch(url,req);
-        const result = await res.json();
-    
-        if(web3Result){
+            const res =  await fetch(url,req);
+
+            if(String(res.status).startsWith("4"))   throw new Error("client error");
+            if(String(res.status).startsWith("5"))   throw new Error("server error");
+                
+            const result = await res.json();                
+                
             setReceipt(web3Result);    
             setReceiptState(true);
+
+            setCareers([...careers,result]);
+    
+        }catch(e){
+            alert(e.message);
         }
-        if(result)  setCareers([...careers,result]);
     }
 
-    const deleteCareer = career => {
+    const deleteCareer = async career => {
         setEditing(false)
         const url = `http://${process.env.REACT_APP_API_HOST}/v1/career/${career.id}/emp/${career.emp.address}/auth/${career.auth.address}`
-        window.fetch(url,{
+        const req = new Request(url,{
             method : 'DELETE',
             headers: {
                 'X-AUTH-TOKEN' : token,
             }
-        }).then(_=>{     
-                alert("😊 경력 삭제 완료")
-                setCareers(careers.filter(c=>c.id !== career.id))
-        }).catch(_=>alert("😥 경력 삭제 실패"))
+        });
+        try{
+            const res = await fetch(req);
 
+            if(res.status !== 200)  throw new Error("😥 경력 삭제 실패");
+            
+            alert("😊 경력 삭제 완료");
+            setCareers(careers.filter(c=>c.id !== career.id));
+            
+        }catch(e){
+            alert(e.message);
+        }
+    
     }
 
     const updateCareer = async () => {   
         const url = `http://${process.env.REACT_APP_API_HOST}/v1/career`;
-        
+        const req = new Request(url,{
+            method : 'PATCH',
+            headers : {
+                'X-AUTH-TOKEN' : token,
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({
+                id : currentCareer.id,
+                title : currentCareer.title,
+                summary : currentCareer.summary,
+                start_date : currentCareer.start_date,
+                end_date : currentCareer.end_date,
+                deleteAt : currentCareer.deleteAt,  
+                emp : currentCareer.emp,
+                auth : currentCareer.auth
+            })
+        });
+
         try{
-            const res = await window.fetch(url,{
-                method : 'PATCH',
-                headers : {
-                    'X-AUTH-TOKEN' : token,
-                    'Content-Type' : 'application/json'
-                },
-                body : JSON.stringify({
-                    id : currentCareer.id,
-                    title : currentCareer.title,
-                    summary : currentCareer.summary,
-                    start_date : currentCareer.start_date,
-                    end_date : currentCareer.end_date,
-                    deleteAt : currentCareer.deleteAt,  
-                    emp : currentCareer.emp,
-                    auth : currentCareer.auth
-                })
-            });
+            const res = await window.fetch(req);
             const result = await res.json();           
+            if(res.status !== 200)  throw new Error("😥 경력 수정 실패");
             
             alert("😊 경력 수정 완료")
             setCareers(careers.map(career=>career.id===result.id ? result : career));
             setEditing(false);     
 
-        }catch(err){
-            alert("😥 경력 수정 실패")
+        }catch(e){
+            alert(e.message);
         }
+    
     }
 
 
